@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --background: #fdfcf7;
+  --surface: #ffffff;
+  --border: #e5e1d5;
+  --text: #3a3a3a;
+  --muted: #7a7a7a;
+}
+
+html,
+body {
+  background-color: var(--background);
+  color: var(--text);
+  font-feature-settings: "rlig" 1, "calt" 1;
+  font-family: "Nunito", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Yumuşak scrollbar — açık tema */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(107, 144, 128, 0.18);
+  border-radius: 6px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 144, 128, 0.32);
+}
+
+/* Sohbet baloncuğunda markdown stilleri */
+.prose-chat p {
+  margin: 0.25rem 0;
+}
+.prose-chat code {
+  background: rgba(107, 144, 128, 0.12);
+  color: #445e52;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.9em;
+}
+.prose-chat pre {
+  background: #f7f5ed;
+  border: 1px solid #e5e1d5;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.prose-chat ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.prose-chat ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+.prose-chat strong {
+  color: #2e3d36;
+}
