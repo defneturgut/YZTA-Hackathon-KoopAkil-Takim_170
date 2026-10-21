@@ -1,9 +1,9 @@
-# 🌿 KoopAkıl — Kooperatifinizin Akıllı Yardımcısı
+# 🌿 KoopAkıl — Your Cooperative's Smart Assistant
 
-> Üretici kooperatifleri ve KOBİ'ler için **Gemini AI destekli** uçtan
-> uca operasyon platformu. Müşteri destek, kargo lojistiği, akıllı stok
-> yönetimi ve günlük operasyon planlamasını tek bir sade arayüzde
-> birleştirir.
+> An end-to-end, **Gemini AI-powered** operations platform for producer
+> cooperatives and SMEs. It brings customer support, shipping logistics,
+> smart inventory management and daily operations planning together in a
+> single, simple interface.
 
 [![Python](https://img.shields.io/badge/python-3.12-3776AB?style=flat-square)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat-square)](https://fastapi.tiangolo.com/)
@@ -12,70 +12,70 @@
 
 ---
 
-## İçindekiler
+## Table of Contents
 
-1. [Hızlı Bakış](#hızlı-bakış)
-2. [Hedef Kullanıcı & Tasarım Felsefesi](#hedef-kullanıcı--tasarım-felsefesi)
-3. [Rol-Bazlı Deneyim](#rol-bazlı-deneyim)
-4. [Mimari](#mimari)
-5. [Modüller](#modüller)
-6. [Hızlı Başlangıç](#hızlı-başlangıç)
-7. [⚙️ Gerçek Gemini API'ye Geçiş & Sorun Giderme](#️-gerçek-gemini-apiye-geçiş--sorun-giderme)
-8. [💾 Veri Kalıcılığı](#-veri-kalıcılığı)
-9. [AI Görev Üretimi — Nasıl Çalışır?](#ai-görev-üretimi--nasıl-çalışır)
-10. [AI Yaklaşımı](#ai-yaklaşımı)
-11. [API Referansı](#api-referansı)
-12. [Klasör Yapısı](#klasör-yapısı)
+1. [At a Glance](#at-a-glance)
+2. [Target Users & Design Philosophy](#target-users--design-philosophy)
+3. [Role-Based Experience](#role-based-experience)
+4. [Architecture](#architecture)
+5. [Modules](#modules)
+6. [Quick Start](#quick-start)
+7. [⚙️ Switching to the Real Gemini API & Troubleshooting](#️-switching-to-the-real-gemini-api--troubleshooting)
+8. [💾 Data Persistence](#-data-persistence)
+9. [AI Task Generation — How Does It Work?](#ai-task-generation--how-does-it-work)
+10. [AI Approach](#ai-approach)
+11. [API Reference](#api-reference)
+12. [Folder Structure](#folder-structure)
 13. [Production Deployment](#production-deployment)
 
 ---
 
-## Hızlı Bakış
+## At a Glance
 
-| Yön | Detay |
+| Aspect | Detail |
 | --- | --- |
-| **Proje** | KoopAkıl |
-| **Hedef Kitle** | Tarım/el sanatları kooperatifleri, küçük e-ticaret |
-| **Ana Yetenek** | Multi-tool AI ajan + RAG + anomali tespiti + günlük brifing + manuel + AI görev üretimi + müşteri portalı |
+| **Project** | KoopAkıl |
+| **Target Audience** | Agricultural/handicraft cooperatives, small e-commerce |
+| **Core Capability** | Multi-tool AI agent + RAG + anomaly detection + daily briefing + manual + AI task generation + customer portal |
 | **Stack** | FastAPI · SQLAlchemy 2.0 · Next.js 15 · Tailwind · Recharts |
 | **AI** | Google **Gemini 2.5 Pro** + Embeddings + Function Calling |
-| **Tasarım** | Açık tema · doğal yeşil/krem palet · sade tipografi |
-| **Modlar** | Demo (mock, key gerekmez) · Production (gerçek Gemini key ile) |
+| **Design** | Light theme · natural green/cream palette · clean typography |
+| **Modes** | Demo (mock, no key needed) · Production (with a real Gemini key) |
 
 ---
 
-## Hedef Kullanıcı & Tasarım Felsefesi
+## Target Users & Design Philosophy
 
-KoopAkıl, **20–200 ürünlük tarım kooperatifleri ve butik üreticileri**
-hedefler. Çalışanların büyük kısmı teknik değildir — bu yüzden:
+KoopAkıl targets **agricultural cooperatives and boutique producers with
+20–200 products**. Most of their staff are non-technical — so:
 
-- 🤍 **Beyaz zemin + soft yeşil/krem** — gözü yormaz, doğa hissi verir
-- 🌿 **Büyük tipografi, geniş boşluk, ikon destekli butonlar**
-- 🇹🇷 **Tüm UI Türkçe** — teknik jargon yerine günlük dil
-- 🪜 **Rol bazlı sadelik** — bir depo görevlisi yönetim panelini görmez
-- 💚 **Yardımcı mesajlar** — "Bugün hazırlanacak paketler", "Stoğu azalan ürünler"
+- 🤍 **White background + soft green/cream** — easy on the eyes, feels natural
+- 🌿 **Large typography, generous spacing, icon-backed buttons**
+- 🇹🇷 **Entire UI in Turkish** — everyday language instead of technical jargon
+- 🪜 **Role-based simplicity** — a warehouse worker never sees the management panel
+- 💚 **Helpful messages** — "Packages to prepare today", "Products running low"
 
 ---
 
-## Rol-Bazlı Deneyim
+## Role-Based Experience
 
-Her kullanıcı rolüne uygun bir ekran açılır. Sidebar otomatik filtrelenir.
+Each user role opens on a screen suited to it. The sidebar is filtered automatically.
 
-| Rol | Giriş Sonrası | Sidebar İçeriği |
+| Role | After Login | Sidebar Contents |
 | --- | --- | --- |
-| **Yönetici / Admin** | `/dashboard` | Tümü |
-| **Depo Görevlisi** | `/tasks` ("Bugün hazırlanacak paketler") | Ana Sayfa · Envanter · Görevler · Uyarılar · Ayarlar |
-| **Kurye** | `/shipments` ("Bugünkü rotanız") | Ana Sayfa · Kargolar · Görevler · Ayarlar |
-| **Müşteri Destek** | `/chat` (AI Asistan) | Ana Sayfa · AI Asistan · Kargolar · Uyarılar · Ayarlar |
-| **Müşteri** 🆕 | `/portal` (Siparişlerim) | Siparişlerim · Kargolarım · Ayarlar |
+| **Manager / Admin** | `/dashboard` | Everything |
+| **Warehouse Staff** | `/tasks` ("Packages to prepare today") | Home · Inventory · Tasks · Alerts · Settings |
+| **Courier** | `/shipments` ("Your route today") | Home · Shipments · Tasks · Settings |
+| **Customer Support** | `/chat` (AI Assistant) | Home · AI Assistant · Shipments · Alerts · Settings |
+| **Customer** 🆕 | `/portal` (My Orders) | My Orders · My Shipments · Settings |
 
-> Müşteri rolündeki kullanıcı **sadece kendi** sipariş ve kargolarını
-> görür — backend `Order.customer_email` üzerinden filtreler. Yönetim
-> ekranlarına erişimi yoktur.
+> A user with the customer role sees **only their own** orders and
+> shipments — the backend filters by `Order.customer_email`. They have no
+> access to management screens.
 
 ---
 
-## Mimari
+## Architecture
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
@@ -104,71 +104,71 @@ Her kullanıcı rolüne uygun bir ekran açılır. Sidebar otomatik filtrelenir.
 
 ---
 
-## Modüller
+## Modules
 
-### Modül 1 — AI Müşteri Destek Merkezi
-- Web chat, multi-turn Türkçe, Redis tabanlı session memory
-- **RAG**: PDF/DOCX/TXT/CSV yükleme → chunking → Gemini embeddings → cosine retrieval → grounded response
-- Kaynak alıntıları + güven skoru + halüsinasyon azaltma
+### Module 1 — AI Customer Support Center
+- Web chat, multi-turn Turkish, Redis-based session memory
+- **RAG**: PDF/DOCX/TXT/CSV upload → chunking → Gemini embeddings → cosine retrieval → grounded response
+- Source citations + confidence score + hallucination reduction
 
-### Modül 2 — Kargo & Lojistik AI
+### Module 2 — Shipping & Logistics AI
 - Shipment tracking + event log
-- **AI anomali tespiti**: 48+ saat duraksama, transit gecikmesi, yüksek riskli teslimat
+- **AI anomaly detection**: 48+ hour stalls, transit delays, high-risk deliveries
 
-### Modül 3 — Akıllı Stok Yönetimi
-- Low-stock tespiti + canlı KPI'lar
-- AI predictive forecast: tükenme tarihi + önerilen sipariş miktarı
+### Module 3 — Smart Inventory Management
+- Low-stock detection + live KPIs
+- AI predictive forecast: stock-out date + recommended order quantity
 
-### Modül 4 — Günlük Operasyon Ajanı
-- **Multi-tool agent**: 4 tool + Gemini reasoning + structured outputs
-- **Manuel + AI görev üretimi**
+### Module 4 — Daily Operations Agent
+- **Multi-tool agent**: 4 tools + Gemini reasoning + structured outputs
+- **Manual + AI task generation**
 
-### Modül 5 — Müşteri Portalı 🆕
-- Müşteri kendi sipariş ve kargolarını görür
-- Kargo timeline'ı (her event/durum adımı)
+### Module 5 — Customer Portal 🆕
+- Customers see their own orders and shipments
+- Shipment timeline (every event/status step)
 
 ---
 
-## Hızlı Başlangıç
+## Quick Start
 
-### Docker ile tek komut
+### One command with Docker
 
 ```bash
-git clone <repo>
-cd YZTA-Hackathon
+git clone https://github.com/defneturgut/YZTA-Hackathon-KoopAkil-Takim_170.git
+cd YZTA-Hackathon-KoopAkil-Takim_170
 cp .env.example .env
 docker compose up --build
 ```
 
-Sonra:
+Then:
 - 🌐 Frontend: <http://localhost:3000>
 - ⚙️ Backend Swagger: <http://localhost:8000/docs>
-- 🩺 AI sağlık kontrolü: <http://localhost:8000/health/ai>
+- 🩺 AI health check: <http://localhost:8000/health/ai>
 
-### Demo Hesapları
+### Demo Accounts
 
-| Rol | E-posta | Şifre |
+| Role | Email | Password |
 | --- | --- | --- |
 | Admin | `admin@koopakil.tr` | `admin1234` |
-| Yönetici | `yonetici@koopakil.tr` | `admin1234` |
-| Depo | `depo@koopakil.tr` | `admin1234` |
-| Kurye | `kurye@koopakil.tr` | `admin1234` |
-| Destek | `destek@koopakil.tr` | `admin1234` |
-| **Müşteri** | `musteri@koopakil.tr` | `admin1234` |
+| Manager | `yonetici@koopakil.tr` | `admin1234` |
+| Warehouse | `depo@koopakil.tr` | `admin1234` |
+| Courier | `kurye@koopakil.tr` | `admin1234` |
+| Support | `destek@koopakil.tr` | `admin1234` |
+| **Customer** | `musteri@koopakil.tr` | `admin1234` |
 
-> Demo müşterisi `Zeynep Aydın`'a seed sırasında ilk 5 sipariş atanır,
-> böylece müşteri panelinde dolu bir geçmiş görünür.
+> The first 5 orders are assigned to the demo customer `Zeynep Aydın` during
+> seeding, so the customer portal shows a populated history.
 
 ---
 
-## ⚙️ Gerçek Gemini API'ye Geçiş & Sorun Giderme
+## ⚙️ Switching to the Real Gemini API & Troubleshooting
 
-### Tek kural: **API key varsa, gerçek Gemini kullanılır.**
+### One rule: **if there is an API key, real Gemini is used.**
 
-`.env` dosyanıza geçerli bir key ekleyin ve backend'i restart edin:
+Add a valid key to your `.env` file and restart the backend:
 
 ```env
-GEMINI_API_KEY=AIzaSy....   # https://ai.google.dev'den ücretsiz alın
+GEMINI_API_KEY=AIzaSy....   # get one for free at https://ai.google.dev
 GEMINI_MODEL=gemini-2.5-pro
 ```
 
@@ -176,29 +176,29 @@ GEMINI_MODEL=gemini-2.5-pro
 docker compose restart backend
 ```
 
-Backend log'unda şu satırı görmelisiniz:
+You should see this line in the backend log:
 ```
 ✅ AI backend: REAL Gemini (model=gemini-2.5-pro) — key configured
 ```
 
-### 🐛 "API key koydum ama AI yine mock yanıt veriyor"
+### 🐛 "I added an API key but the AI still gives mock responses"
 
-1. **Key formatı yanlış** → geçerli key `AIza` ile başlar, > 20 karakter
+1. **Wrong key format** → a valid key starts with `AIza` and is > 20 characters
    ```bash
    docker compose exec backend env | grep GEMINI_API_KEY
    ```
 
-2. **Backend restart edilmedi** → `.env` değişikliği sadece restart ile
-   geçerli olur:
+2. **Backend not restarted** → `.env` changes only take effect after a
+   restart:
    ```bash
    docker compose restart backend
    ```
 
-3. **AI sağlığını test edin** → kapsamlı debug endpoint:
+3. **Test AI health** → comprehensive debug endpoint:
    ```bash
    curl http://localhost:8000/health/ai
    ```
-   Çalışıyorken:
+   When it works:
    ```json
    {
      "backend": "gemini",
@@ -210,43 +210,43 @@ Backend log'unda şu satırı görmelisiniz:
      "latency_ms": 450
    }
    ```
-   Sorun varsa `last_error` alanı hatayı söyler.
+   If something is wrong, the `last_error` field tells you what.
 
-4. **Quota / billing** → Gemini'nin ücretsiz tier'ı 60 RPM. Aşıldıysa
-   sistem **otomatik mock'a düşer** (uygulamanın çökmemesi için).
+4. **Quota / billing** → Gemini's free tier is 60 RPM. If it is exceeded,
+   the system **automatically falls back to mock** (so the app doesn't crash).
 
-### Mock modunu zorla
-Key olsa bile mock'a düşmek için `.env`'de `GEMINI_API_KEY=` (boş).
-
----
-
-## 💾 Veri Kalıcılığı
-
-> "Envanterde değiştirdiğim değerler eski haline dönüyor mu?"
-
-### ✅ Veri korunur:
-- `docker compose stop` → container durur, **veri korunur**.
-- `docker compose down` → container silinir, **veri korunur** (volume kalıcı).
-- Backend / frontend rebuild → **veri korunur**.
-
-### ❌ Veri silinir:
-- `docker compose down -v` → ⚠️ **volume silinir, tüm DB sıfırlanır**.
-
-### Seed neyi yazar?
-Seed sadece **admin kullanıcısı yoksa** çalışır. Yani:
-- İlk açılışta → 25 ürün, 18 sipariş, 15 kargo seed edilir.
-- Sonraki açılışlarda → seed hiçbir şey yapmaz, mevcut verilerinizi korur.
-
-**Sonuç:** Volume'u silmediğiniz sürece envanter değişiklikleriniz kalıcıdır.
+### Force mock mode
+To fall back to mock even with a key, set `GEMINI_API_KEY=` (empty) in `.env`.
 
 ---
 
-## AI Görev Üretimi — Nasıl Çalışır?
+## 💾 Data Persistence
 
-> *"AI bu görevleri kafasına göre mi uyduruyor?"* — **Hayır.**
+> "Will the values I changed in inventory reset?"
 
-`POST /api/v1/tasks/generate` tetiklendiğinde `operations_agent.daily_briefing()`
-şu üç gerçek veri kaynağını okur:
+### ✅ Data is kept:
+- `docker compose stop` → the container stops, **data is kept**.
+- `docker compose down` → the container is removed, **data is kept** (the volume persists).
+- Backend / frontend rebuild → **data is kept**.
+
+### ❌ Data is deleted:
+- `docker compose down -v` → ⚠️ **the volume is deleted and the whole DB is reset**.
+
+### What does the seed write?
+The seed only runs **if there is no admin user**. So:
+- On first start → 25 products, 18 orders and 15 shipments are seeded.
+- On later starts → the seed does nothing and keeps your existing data.
+
+**Result:** as long as you don't delete the volume, your inventory changes persist.
+
+---
+
+## AI Task Generation — How Does It Work?
+
+> *"Does the AI just make these tasks up?"* — **No.**
+
+When `POST /api/v1/tasks/generate` is triggered, `operations_agent.daily_briefing()`
+reads these three real data sources:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -257,44 +257,44 @@ Seed sadece **admin kullanıcısı yoksa** çalışır. Yani:
         ▼                     ▼                     ▼
  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐
  │ shipment_tool  │  │ inventory_tool │  │   task_tool    │
- │ Riskli/geciken │  │ Kritik stok    │  │ Açık görev    │
- │ kargolar       │  │ altındaki ürün │  │ kuyruğu       │
+ │ Risky/delayed  │  │ Products below │  │ Open task      │
+ │ shipments      │  │ critical stock │  │ queue          │
  └───────┬────────┘  └───────┬────────┘  └───────┬────────┘
          ▼                   ▼                   ▼
-   "Kargo X için        "Y ürünü için      "Görev: Z"
-   müşteriye             tedarikçi
-   bilgilendirme         siparişi
-   gönder"               oluştur"
+   "Send the            "Create a           "Task: Z"
+   customer an          supplier order
+   update for           for product Y"
+   shipment X"
 ```
 
-### Üretim Kuralları
-1. **Geciken kargolar** → en riskli ilk 3 için: *"Kargo {tracking} için
-   müşteriye bilgilendirme gönder."*
-2. **Kritik stok** → eşik altındaki ilk 3 ürün için: *"{ürün} ({SKU})
-   için tedarikçi siparişi oluştur."*
-3. **Açık görevler** → mevcut kuyruktan ilk 3 tanesi listeye eklenir.
+### Generation Rules
+1. **Delayed shipments** → for the 3 riskiest: *"Send the customer an update
+   for shipment {tracking}."*
+2. **Critical stock** → for the first 3 products below the threshold: *"Create
+   a supplier order for {product} ({SKU})."*
+3. **Open tasks** → the first 3 from the existing queue are added to the list.
 
-### Güvenlik İlkeleri
-- ❌ Sahte sipariş veya SKU üretmez — sadece DB kayıtlarına referans.
-- ✅ Her AI görev için "AI" rozeti UI'da görünür.
-- ✅ Manuel görev de eklenebilir — `Görevler → Yeni Görev` butonu.
+### Safety Principles
+- ❌ Never invents orders or SKUs — only references DB records.
+- ✅ Every AI-generated task shows an "AI" badge in the UI.
+- ✅ Manual tasks can also be added — via the `Tasks → New Task` button.
 
 ---
 
-## AI Yaklaşımı
+## AI Approach
 
 ### Gemini Service (lazy + re-evaluable)
-`gemini_service.py` tek seam. **Lazy init**: real backend ilk çağrıda kurulur;
-`settings.use_real_gemini` her çağrıda yeniden okunur. Hata durumunda mock'a
-otomatik düşer.
+`gemini_service.py` is the single seam. **Lazy init**: the real backend is set up on the
+first call; `settings.use_real_gemini` is re-read on every call. On errors it
+automatically falls back to mock.
 
 ### RAG Pipeline
 ```
-Belge → parse (pypdf/python-docx) → chunk (1200ch + 200 overlap)
-     → embed (Gemini text-embedding-004 / hash-fallback)
-     → persist (DocumentChunk.embedding_json)
-     → retrieve (cosine sim, top-k=4)
-     → context injection → Gemini grounded response
+Document → parse (pypdf/python-docx) → chunk (1200ch + 200 overlap)
+         → embed (Gemini text-embedding-004 / hash-fallback)
+         → persist (DocumentChunk.embedding_json)
+         → retrieve (cosine sim, top-k=4)
+         → context injection → Gemini grounded response
 ```
 
 ### Structured Outputs
@@ -303,60 +303,60 @@ Belge → parse (pypdf/python-docx) → chunk (1200ch + 200 overlap)
   "tracking_code": "KOP-RISK-000",
   "risk_level": "high",
   "risk_score": 0.78,
-  "reason": "Kargo 52 saattir aynı transfer merkezinde bekliyor.",
-  "recommended_action": "Müşteriye proaktif SMS gönder.",
+  "reason": "The shipment has been waiting at the same transfer hub for 52 hours.",
+  "recommended_action": "Send the customer a proactive SMS.",
   "confidence_score": 0.92
 }
 ```
 
 ---
 
-## API Referansı
+## API Reference
 
 Swagger: **`/docs`** · ReDoc: **`/redoc`**
 
-| Grup | Endpoint | Açıklama |
+| Group | Endpoint | Description |
 | --- | --- | --- |
-| Meta | `GET  /health/ai` 🆕 | AI backend canlı test |
+| Meta | `GET  /health/ai` 🆕 | Live AI backend test |
 | Auth | `POST /api/v1/auth/login` | JWT access + refresh |
 | Chat | `POST /api/v1/chat/message` | RAG + agent |
 | Docs | `POST /api/v1/documents/upload` | PDF/DOCX/TXT/CSV ingest |
-| Inv. | `POST /api/v1/inventory/{id}/forecast` | AI tükenme tahmini |
-| Ship | `POST /api/v1/shipments/{id}/check-status` | AI anomali analizi |
-| Task | `POST /api/v1/tasks` | **Manuel** görev oluştur |
-| Task | `POST /api/v1/tasks/generate` | **AI** günlük plan üret |
-| Dash | `GET  /api/v1/dashboard/daily` | Yönetici brifingi |
-| Portal | `GET  /api/v1/portal/my-orders` 🆕 | Müşterinin siparişleri |
-| Portal | `GET  /api/v1/portal/my-shipments` 🆕 | Müşterinin kargoları |
-| Portal | `GET  /api/v1/portal/track/{code}` 🆕 | Anonim takip |
+| Inv. | `POST /api/v1/inventory/{id}/forecast` | AI stock-out forecast |
+| Ship | `POST /api/v1/shipments/{id}/check-status` | AI anomaly analysis |
+| Task | `POST /api/v1/tasks` | Create a **manual** task |
+| Task | `POST /api/v1/tasks/generate` | Generate an **AI** daily plan |
+| Dash | `GET  /api/v1/dashboard/daily` | Manager briefing |
+| Portal | `GET  /api/v1/portal/my-orders` 🆕 | Customer's orders |
+| Portal | `GET  /api/v1/portal/my-shipments` 🆕 | Customer's shipments |
+| Portal | `GET  /api/v1/portal/track/{code}` 🆕 | Anonymous tracking |
 
 ---
 
-## Klasör Yapısı
+## Folder Structure
 
 ```
 YZTA-Hackathon/
 ├── backend/
 │   ├── app/
 │   │   ├── ai/                   ← Gemini service, agent, RAG, tools, prompts
-│   │   ├── api/v1/endpoints/     ← 10 router (portal dahil)
+│   │   ├── api/v1/endpoints/     ← 10 routers (including portal)
 │   │   ├── core/                 ← security + RBAC
 │   │   ├── models/               ← SQLAlchemy 2.0 ORM
 │   │   ├── schemas/              ← Pydantic v2
-│   │   ├── seed/seed_data.py     ← KoopAkıl demo verisi
+│   │   ├── seed/seed_data.py     ← KoopAkıl demo data
 │   │   └── main.py               ← /health, /health/ai
 │   ├── Dockerfile
 │   └── requirements.txt
 ├── frontend/
 │   ├── app/
-│   │   ├── portal/               ← Müşteri paneli 🆕
-│   │   │   ├── page.tsx          ← Siparişlerim
-│   │   │   └── shipments/        ← Kargolarım
+│   │   ├── portal/               ← Customer portal 🆕
+│   │   │   ├── page.tsx          ← My Orders
+│   │   │   └── shipments/        ← My Shipments
 │   │   ├── dashboard, chat, inventory, shipments, tasks, …
 │   ├── components/
-│   │   ├── shell.tsx             ← Rol-bazlı sidebar
+│   │   ├── shell.tsx             ← Role-based sidebar
 │   │   └── ui/                   ← Button, Card, Modal, Table, Badge
-│   ├── lib/roles.ts              ← Rol haritası
+│   ├── lib/roles.ts              ← Role map
 │   ├── Dockerfile
 │   └── package.json
 ├── infra/nginx.conf
@@ -369,7 +369,7 @@ YZTA-Hackathon/
 ## Production Deployment
 
 ```bash
-git clone <repo> /opt/koopakil
+git clone https://github.com/defneturgut/YZTA-Hackathon-KoopAkil-Takim_170.git /opt/koopakil
 cd /opt/koopakil
 cp .env.example .env
 $EDITOR .env       # JWT_SECRET, POSTGRES_PASSWORD, GEMINI_API_KEY
@@ -377,13 +377,13 @@ docker compose up -d --build
 docker compose logs -f backend
 ```
 
-### Yedekleme
+### Backup
 ```bash
 docker exec aegis-postgres pg_dump -U aegis aegis_kobi > backup-$(date +%F).sql
 ```
 
 ---
 
-## Lisans
+## License
 
 MIT © 2026 — KoopAkıl 🌿
